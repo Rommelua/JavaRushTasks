@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /* 
@@ -17,15 +18,7 @@ public class Solution {
         for (int i = 0; i < 10; i++) {
             list.add(Integer.parseInt(reader.readLine()));
         }
-        int result = 1;
-        for (int i = 0; i < list.size()-1; i++) {
-            int counter = 1;
-            while ( i + counter < list.size() && list.get(i).equals(list.get(i + counter))) {
-                counter++;
-            }
-            if (counter > result)
-                result = counter;
-        }
+        int result = list.stream().mapToInt(i -> Collections.frequency(list, i)).max().getAsInt();
         System.out.println(result);
     }
 }
