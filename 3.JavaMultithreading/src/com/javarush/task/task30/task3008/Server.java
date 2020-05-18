@@ -20,6 +20,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        ConsoleHelper.writeMessage("Enter server port");
         int port = ConsoleHelper.readInt();
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Сервер запущен!");
