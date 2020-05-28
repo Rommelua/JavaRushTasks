@@ -17,7 +17,16 @@ public class Solution {
         for (int i = 0; i < 10; i++) {
             list.add(Integer.parseInt(reader.readLine()));
         }
-        int result = list.stream().mapToInt(i -> Collections.frequency(list, i)).max().getAsInt();
+        int result = 1;
+        for (int i = 0; i < list.size()-1;) {
+            int counter = 1;
+            while ( i + counter < list.size() && list.get(i).equals(list.get(i + counter))) {
+                counter++;
+            }
+            i += counter;
+            if (counter > result)
+                result = counter;
+        }
         System.out.println(result);
     }
 }

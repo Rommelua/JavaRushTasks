@@ -24,9 +24,8 @@ public class Solution {
         List<String> words = Files.lines(Paths.get(fileName)).flatMap(s1 -> Arrays.stream(s1.split(" ")))
                 .collect(Collectors.toList()); // создаем List слов
         while (words.size() > 1){
-            StringBuilder sb = new StringBuilder(words.get(0));
-            String revers = sb.reverse().toString(); //Сщхраняем перевернутое слово в переменную String
-            String word = words.remove(0); // удаляем из списка (защита от палиндромов)
+            String word = words.remove(0);// удаляем из списка
+            String revers = new StringBuilder(word).reverse().toString(); //Сщхраняем перевернутое слово в переменную String
             if (words.contains(revers)) {
                 result.add(new Pair(word, revers));
                 words.remove(revers);
