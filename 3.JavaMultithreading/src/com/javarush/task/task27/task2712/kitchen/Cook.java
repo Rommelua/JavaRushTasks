@@ -25,7 +25,7 @@ public class Cook extends Observable implements Observer {
         ConsoleHelper.writeMessage("Start cooking - " + arg + ", cooking time "
                 + order.getTotalCookingTime() + "min");
         CookedOrderEventDataRow event = new CookedOrderEventDataRow(o.toString(), name,
-                order.getTotalCookingTime(), order.getDishes());
+                order.getTotalCookingTime() * 60, order.getDishes());
         StatisticManager.getInstance().register(event);
         setChanged();
         notifyObservers(arg);

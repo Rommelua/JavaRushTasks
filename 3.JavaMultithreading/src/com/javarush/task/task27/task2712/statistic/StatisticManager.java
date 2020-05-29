@@ -1,6 +1,7 @@
 package com.javarush.task.task27.task2712.statistic;
 
 import com.javarush.task.task27.task2712.kitchen.Cook;
+import com.javarush.task.task27.task2712.statistic.event.CookedOrderEventDataRow;
 import com.javarush.task.task27.task2712.statistic.event.EventDataRow;
 import com.javarush.task.task27.task2712.statistic.event.EventType;
 import com.javarush.task.task27.task2712.statistic.event.VideoSelectedEventDataRow;
@@ -42,15 +43,30 @@ public class StatisticManager {
     public Map<Date, Long> getAdvProfitPerDays() {
         Map<Date, Long> result = new HashMap<>();
         statisticStorage.storage.get(EventType.SELECTED_VIDEOS).stream()
-                .peek(e -> e.getDate().setSeconds(0))
-                .peek(e -> e.getDate().setMinutes(0))
-                .peek(e -> e.getDate().setHours(0))
-                .peek(e -> e.getDate().setTime(e.getDate().getTime() / 1000 * 1000))
-                .forEach(e -> result.compute(e.getDate(),
-                        (k, v) -> v == null ? ((VideoSelectedEventDataRow)e).getAmount()
-                                : v + ((VideoSelectedEventDataRow)e).getAmount()));
-        result.put(new Date(120, 4, 14), 250L);
-        result.put(new Date(120, 4, 13), 102L);
+                .map(e -> (VideoSelectedEventDataRow)e) //получаем стрим событий и приводим к классу VideoSelectedEventDataRow
+                .peek(VideoSelectedEventDataRow::removeTimeFromCurrentDate) //убираем время суток, оставляем голую дату
+                .forEach(e -> result.compute(e.getDate(), // заполняем мапу. если ключа нет - вставляем, если есть - прибавляем
+                        (k, v) -> v == null ? e.getAmount() : v + e.getAmount()));
+        return result;
+    }
+
+    /**
+     * Work Loading per dates
+     * @return Map<Date, Map<String, Integer>> where key - Cook name, value - work loading in seconds
+     */
+    public Map<Date, Map<String, Integer>> getCookWorkloading() {
+        Map<Date, Map<String, Integer>> result = statisticStorage.storage.get(EventType.COOKED_ORDER).stream()
+                .map(e -> (CookedOrderEventDataRow)e)//получаем стрим событий и приводим к классу CookedOrderEventDataRow
+                .peek(CookedOrderEventDataRow::removeTimeFromCurrentDate)//убираем время суток, оставляем голую дату
+                .collect(Collectors.toMap( //Собираем мапу
+                        CookedOrderEventDataRow::getDate, //ключ - дата, значение (если нет ключа) - новая мапа
+                        e -> new LinkedHashMap<String, Integer>(){{put(e.getCookName(), e.getTime());}},
+                        (a, b) -> {a.compute(b.keySet().iterator().next(), //есди ключ (дата) уже был - вызываем compute и проверяем,
+                                (k, v) -> k == null ? b.get(k) : a.get(k) + b.get(k));//есть ли ключ во вложенной мапе
+                                return a;}));// для повара либо создан новый элемент, либо значение прибавлено к существующему
+//        result.put(new Date(120, 4, 30), new LinkedHashMap<>(){{put("AmigoTest", 65); put("Amigo", 50);}});
+//        result.put(new Date(120, 4, 31), new LinkedHashMap<>(){{put("AmigoTest", 65); put("Amigo", 50);}});
+//        result.put(new Date(120, 4, 25), new LinkedHashMap<>(){{put("AmigoTest", 65); put("Amigo", 50);}});
         return result;
     }
 

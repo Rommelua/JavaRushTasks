@@ -6,8 +6,8 @@ public class Advertisement {
     private long initialAmount; // начальная сумма, стоимость рекламы в копейках.
     private int hits; //количество оплаченных показов
     private int duration; //продолжительность в секундах
-    private long amountPerOneDisplaying;
-    private long amountPerSecond;
+    private long amountPerOneDisplaying; //стоимость одного показа
+    private long amountPerSecond; //стоимость секунды показа
 
     public String getName() {
         return name;
@@ -39,9 +39,10 @@ public class Advertisement {
         amountPerSecond = amountPerOneDisplaying * 1000 / duration;
     }
     public void revalidate(){
-        if (hits-- <= 0) {
+        if (hits <= 0) {
             throw new UnsupportedOperationException();
         }
+        hits--;
     }
     @Override
     public String toString() {

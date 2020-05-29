@@ -12,7 +12,8 @@ public class Restaurant {
         Waiter waiter = new Waiter();
         cook.addObserver(waiter);
         tablet.createOrder();
-        //tablet.createOrder();
+        tablet.createOrder();
+        tablet.createOrder();
 
         DirectorTablet directorTablet = new DirectorTablet();
         directorTablet.printAdvertisementProfit();

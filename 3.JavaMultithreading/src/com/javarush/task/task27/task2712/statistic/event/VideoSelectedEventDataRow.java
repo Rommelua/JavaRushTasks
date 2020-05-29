@@ -2,6 +2,8 @@ package com.javarush.task.task27.task2712.statistic.event;
 
 import com.javarush.task.task27.task2712.ad.Advertisement;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,14 @@ public class VideoSelectedEventDataRow implements EventDataRow {
     public long getAmount() {
         return amount;
     }
-
+    public void removeTimeFromCurrentDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        try {
+            currentDate = dateFormat.parse(dateFormat.format(currentDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public Date getDate() {
         return currentDate;
