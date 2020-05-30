@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class StatisticManager {
     private static volatile StatisticManager mInstance;
     private StatisticStorage statisticStorage = new StatisticStorage();
-    private Set<Cook> cooks = new HashSet<>();
 
     private StatisticManager() {
     }
@@ -30,10 +29,6 @@ public class StatisticManager {
 
     public void register(EventDataRow data) {
         statisticStorage.put(data);
-    }
-
-    public void register(Cook cook) {
-        cooks.add(cook);
     }
 
     /**
@@ -54,19 +49,36 @@ public class StatisticManager {
      * Work Loading per dates
      * @return Map<Date, Map<String, Integer>> where key - Cook name, value - work loading in seconds
      */
+//    public Map<Date, Map<String, Integer>> getCookWorkloading() {
+//        Map<Date, Map<String, Integer>> result = statisticStorage.storage.get(EventType.COOKED_ORDER).stream()
+//                .map(e -> (CookedOrderEventDataRow)e)//получаем стрим событий и приводим к классу CookedOrderEventDataRow
+//                .peek(CookedOrderEventDataRow::removeTimeFromCurrentDate)//убираем время суток, оставляем голую дату
+//                .collect(Collectors.toMap( //Собираем мапу
+//                        CookedOrderEventDataRow::getDate, //ключ - дата, значение (если нет ключа) - новая мапа
+//                        e -> new TreeMap<String, Integer>(){{put(e.getCookName(), Math.toIntExact(Math.round(e.getTime() / 60.0)));}},
+//                        (a, b) -> {a.compute(b.keySet().iterator().next(), //есди ключ (дата) уже был - вызываем compute и проверяем,
+//                                (k, v) -> k == null ? b.get(k) : a.get(k) + b.get(k));//есть ли ключ во вложенной мапе
+//                                return a;}));// для повара либо создан новый элемент, либо значение прибавлено к существующему
+//        return result;
+//    }
+
     public Map<Date, Map<String, Integer>> getCookWorkloading() {
-        Map<Date, Map<String, Integer>> result = statisticStorage.storage.get(EventType.COOKED_ORDER).stream()
-                .map(e -> (CookedOrderEventDataRow)e)//получаем стрим событий и приводим к классу CookedOrderEventDataRow
-                .peek(CookedOrderEventDataRow::removeTimeFromCurrentDate)//убираем время суток, оставляем голую дату
-                .collect(Collectors.toMap( //Собираем мапу
-                        CookedOrderEventDataRow::getDate, //ключ - дата, значение (если нет ключа) - новая мапа
-                        e -> new LinkedHashMap<String, Integer>(){{put(e.getCookName(), e.getTime());}},
-                        (a, b) -> {a.compute(b.keySet().iterator().next(), //есди ключ (дата) уже был - вызываем compute и проверяем,
-                                (k, v) -> k == null ? b.get(k) : a.get(k) + b.get(k));//есть ли ключ во вложенной мапе
-                                return a;}));// для повара либо создан новый элемент, либо значение прибавлено к существующему
-//        result.put(new Date(120, 4, 30), new LinkedHashMap<>(){{put("AmigoTest", 65); put("Amigo", 50);}});
-//        result.put(new Date(120, 4, 31), new LinkedHashMap<>(){{put("AmigoTest", 65); put("Amigo", 50);}});
-//        result.put(new Date(120, 4, 25), new LinkedHashMap<>(){{put("AmigoTest", 65); put("Amigo", 50);}});
+        List<EventDataRow> eventDataRows = statisticStorage.storage.get(EventType.COOKED_ORDER);
+        Map<Date, Map<String, Integer>> result = new HashMap<>();
+        for (EventDataRow event : eventDataRows) {
+            CookedOrderEventDataRow cookedEv = (CookedOrderEventDataRow) event;
+            cookedEv.removeTimeFromCurrentDate();
+            Date date = cookedEv.getDate();
+            int workMinutes = Math.toIntExact(Math.round(cookedEv.getTime() / 60.0));
+            if (result.containsKey(date)) {
+                result.get(date).compute(cookedEv.getCookName(),
+                        (k, v) -> v == null ? workMinutes : v + workMinutes);
+            } else {
+                Map<String, Integer> cook = new TreeMap<>();
+                cook.put(cookedEv.getCookName(), workMinutes);
+                result.put(date, cook);
+            }
+        }
         return result;
     }
 
@@ -80,16 +92,7 @@ public class StatisticManager {
         }
 
         private void put(EventDataRow data) {
-            switch (data.getType()) {
-                case COOKED_ORDER:
-                    storage.get(EventType.COOKED_ORDER).add(data);
-                    break;
-                case SELECTED_VIDEOS:
-                    storage.get(EventType.SELECTED_VIDEOS).add(data);
-                    break;
-                case NO_AVAILABLE_VIDEO:
-                    storage.get(EventType.NO_AVAILABLE_VIDEO).add(data);
-            }
+                storage.get(data.getType()).add(data);
         }
     }
 }
