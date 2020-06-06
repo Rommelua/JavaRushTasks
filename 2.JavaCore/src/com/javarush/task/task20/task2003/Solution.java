@@ -11,7 +11,6 @@ import java.util.Properties;
 public class Solution {
 
     public static Map<String, String> runtimeStorage = new HashMap<>();
-
     public static void save(OutputStream outputStream) throws Exception {
         Properties p = new Properties();
         p.putAll(runtimeStorage);
