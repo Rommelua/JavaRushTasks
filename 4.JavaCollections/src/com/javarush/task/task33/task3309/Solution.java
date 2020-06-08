@@ -3,7 +3,6 @@ package com.javarush.task.task33.task3309;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -17,13 +16,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.StringWriter;
 
 /*
 Комментарий внутри xml
 */
 public class Solution {
-    public static String toXmlWithComment(Object obj, String tagName, String comment) throws JAXBException, ParserConfigurationException, IOException, SAXException, TransformerException {
+    public static String toXmlWithComment(Object obj, String tagName, String comment) throws JAXBException, ParserConfigurationException, TransformerException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.newDocument();
@@ -52,10 +51,10 @@ public class Solution {
         return writer.toString();
     }
 
-    public static void main(String[] args) throws JAXBException, ParserConfigurationException, IOException, SAXException, TransformerException {
-//        String s = toXmlWithComment(com.javarush.task.task33.task3308.Solution.getObject(),
-//                "shop", "comment");
-//        System.out.println(s);
+    public static void main(String[] args) throws JAXBException, ParserConfigurationException, TransformerException {
+        String s = toXmlWithComment(com.javarush.task.task33.task3308.Solution.getObject(),
+                "shop", "comment");
+        System.out.println(s);
     }
 
 }
