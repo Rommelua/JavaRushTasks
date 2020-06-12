@@ -11,7 +11,7 @@ public class Solution {
     public static void main(String[] args) {
         Set<Cat> cats = createCats();
 
-        cats.remove((Cat) cats.toArray()[0]);
+        cats.remove(cats.toArray()[0]);
 
         printCats(cats);
     }

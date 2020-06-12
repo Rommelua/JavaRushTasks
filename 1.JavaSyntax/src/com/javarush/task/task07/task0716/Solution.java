@@ -11,14 +11,9 @@ import java.util.Collections;
 public class Solution {
     public static void main(String[] args) {
         ArrayList<String> strings = new ArrayList<String>();
-        strings.add("роза");
-        strings.add("лоза");
-        strings.add("лира");
+        Collections.addAll(strings,"роза", "лоза", "лира");
         strings = fix(strings);
-
-        for (String string : strings) {
-            System.out.println(string);
-        }
+        strings.forEach(System.out::println);
     }
 //2.1. удалять из списка строк все слова, содержащие букву "р"
 // 2.2. удваивать все слова содержащие букву "л".

@@ -4,7 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Controller extends KeyAdapter {
-    private final static int WINNING_TILE = 2048;
+    private final static int WINNING_TILE = 2048 * 2;
     private Model model;
     private View view;
 

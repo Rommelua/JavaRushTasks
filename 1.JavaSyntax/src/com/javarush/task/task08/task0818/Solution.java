@@ -21,6 +21,9 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-
+        Map<String , Integer> map = createMap();
+        System.out.println(map);
+        removeItemFromMap(map);
+        System.out.println(map);
     }
 }
