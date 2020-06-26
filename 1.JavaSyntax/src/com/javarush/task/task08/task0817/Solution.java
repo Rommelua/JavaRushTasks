@@ -1,10 +1,8 @@
 package com.javarush.task.task08.task0817;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /* 
 Нам повторы не нужны
@@ -16,7 +14,8 @@ public class Solution {
         for (int i = 0; i < 10; i++) {
             map.put("LastName" + i, "FirstName" + i);
         }
-        //map.put("LastName", "FirstName" + 0);
+        map.put("LastName", "FirstName" + 0);
+        map.put("LastNameу",  "FirstName" + 0);
         return map;
 
     }

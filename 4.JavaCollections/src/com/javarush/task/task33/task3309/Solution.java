@@ -53,7 +53,7 @@ public class Solution {
 
     public static void main(String[] args) throws JAXBException, ParserConfigurationException, TransformerException {
         String s = toXmlWithComment(com.javarush.task.task33.task3308.Solution.getObject(),
-                "shop", "comment");
+                "count", "comment");
         System.out.println(s);
     }
 

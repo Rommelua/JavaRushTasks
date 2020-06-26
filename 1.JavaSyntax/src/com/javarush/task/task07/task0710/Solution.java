@@ -27,6 +27,6 @@ public class Solution {
         for (int i = 0; i < 10; i++) {
             strings.add(0,reader.readLine());
         }
-        strings.stream().forEach(System.out::println);
+        strings.forEach(System.out::println);
     }
 }
