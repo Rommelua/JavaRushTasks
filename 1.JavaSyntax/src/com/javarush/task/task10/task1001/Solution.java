@@ -10,7 +10,6 @@ public class Solution {
         int b = (byte) a + 46;
 
         byte c = (byte) (a * b);
-
         double f = (char) 1234.15;
         System.out.println(f/c);
         long d = (short) (a + f / c + b);

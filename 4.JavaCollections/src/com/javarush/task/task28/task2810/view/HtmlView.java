@@ -54,10 +54,10 @@ public class HtmlView implements View {
             clone.getElementsByClass("city").first().appendText(vacancy.getCity());
             clone.getElementsByClass("companyName").first().appendText(vacancy.getCompanyName());
             clone.getElementsByClass("salary").first().appendText(vacancy.getSalary());
-            clone.getElementsByClass("title").first()
-                    .getElementsByTag("a").first().appendText(vacancy.getTitle());
-            clone.getElementsByClass("title").first()
-                    .getElementsByTag("a").first().attr("href", vacancy.getUrl());
+            Element title = clone.getElementsByClass("title").first()
+                    .getElementsByTag("a").first();
+            title.appendText(vacancy.getTitle());
+            title.attr("href", vacancy.getUrl());
             e.before(clone.outerHtml());
         }
         return doc.toString();
