@@ -42,5 +42,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="org.jsoup:jsoup:1.9.2" level="project" />
+    <orderEntry type="library" name="httpclient-4.5.12" level="project" />
+    <orderEntry type="library" name="httpcore-4.4.13" level="project" />
+    <orderEntry type="library" name="activation-1.1.1" level="project" />
+    <orderEntry type="library" name="mail-1.4.7" level="project" />
   </component>
 </module>

@@ -40,7 +40,7 @@ public class Solution {
                 lines.add(new LineItem(Type.REMOVED, file1.get(i)));
             }
         }
-        for (; j < file2.size(); j++) {
+        if (j < file2.size()) {
             lines.add(new LineItem(Type.ADDED, file2.get(j)));
         }
     }
