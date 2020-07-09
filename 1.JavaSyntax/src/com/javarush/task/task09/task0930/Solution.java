@@ -3,9 +3,9 @@ package com.javarush.task.task09.task0930;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /* 
 Слова вывести в возрастающем порядке, числа - в убывающем.
@@ -32,27 +32,20 @@ public class Solution {
     }
 
     public static void sort(String[] array) {
-        List<Boolean> isNumber = new ArrayList<>();
-        List<Integer> numbers = new ArrayList<>();
-        List<String> words = new ArrayList<>();
+        Queue<Integer> numbers = new PriorityQueue<>(Comparator.reverseOrder());
+        Queue<String> words = new PriorityQueue<>();
         for (String s : array) {
             if (isNumber(s)) {
                 numbers.add(Integer.parseInt(s));
-                isNumber.add(true);
             } else {
                 words.add(s);
-                isNumber.add(false);
             }
         }
-        Collections.sort(words);
-        numbers.sort(Collections.reverseOrder());
-        Iterator<Integer> numberIterator = numbers.iterator();
-        Iterator<String> wordIterator = words.iterator();
         for (int i = 0; i < array.length; i++) {
-            if (isNumber.get(i)) {
-                array[i] = String.valueOf(numberIterator.next());
+            if (isNumber(array[i])) {
+                array[i] = numbers.remove().toString();
             } else {
-                array[i] = wordIterator.next();
+                array[i] = words.remove();
             }
         }
         isGreaterThan(array[0], array[0]);
