@@ -5,13 +5,9 @@ package com.javarush.task.task18.task1825;
 */
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.TreeSet;
 
 public class Solution {
     public static void main(String[] args) throws IOException {
@@ -28,18 +24,16 @@ public class Solution {
 //            Files.write(Paths.get(fileName), Files.readAllBytes(Paths.get(f)), StandardOpenOption.APPEND);
 //        }
         //Files.createFile(Paths.get(fileName));
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fileName, true));
-
-        for (String f : files) {
-            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(f));
-            int data;
-            while ((data = bis.read()) != -1) {
-                bos.write(data);
+        try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fileName, true))) {
+            for (String f : files) {
+                try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(f))) {
+                    int data;
+                    while ((data = bis.read()) != -1) {
+                        bos.write(data);
+                    }
+                }
+                bos.flush();
             }
-            bis.close();
-            bos.flush();
         }
-        bos.close();
-
     }
 }

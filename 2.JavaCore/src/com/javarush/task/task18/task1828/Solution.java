@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class Solution {
 
     public static void main(String[] args) throws IOException {
+        //args = new String[]{"-d", "19847"};
         if (args == null || args.length == 0){
             return;
         }
