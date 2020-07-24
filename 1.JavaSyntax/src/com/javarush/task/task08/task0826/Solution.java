@@ -29,9 +29,6 @@ public class Solution {
     public static void sort(int[] array) {
         int[] sorted = Arrays.stream(array).boxed().sorted(Collections.reverseOrder())
                 .mapToInt(Integer::intValue).toArray();
-        for (int i = 0; i < array.length; i++) {
-            array[i] = sorted[i];
-        }
-
+        System.arraycopy(sorted, 0, array, 0, array.length);
     }
 }

@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 */
 
 public class Solution {
-    public static List<String> words = new ArrayList<String>();
+    public static List<String> words = new ArrayList<>();
 
     static {
         words.add("файл");

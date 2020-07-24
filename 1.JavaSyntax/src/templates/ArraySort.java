@@ -2,7 +2,7 @@ package templates;
 
 import java.util.Arrays;
 
-public class ArraySort {
+public class ArraySort extends Test {
     public static void main(String[] args) {
         int[] ints = getInts();
         // Сортировка вставками
@@ -58,4 +58,5 @@ public class ArraySort {
         System.out.println(Arrays.toString(array));
         return array;
     }
+
 }

@@ -25,13 +25,13 @@ public class Solution {
                 .collect(Collectors.toList()); // создаем List слов
         while (words.size() > 1){
             String word = words.remove(0);// удаляем из списка
-            String revers = new StringBuilder(word).reverse().toString(); //Сщхраняем перевернутое слово в переменную String
+            String revers = new StringBuilder(word).reverse().toString(); //Сохраняем перевернутое слово в переменную String
             if (words.contains(revers)) {
                 result.add(new Pair(word, revers));
                 words.remove(revers);
             }
         }
-       // System.out.println();
+        //System.out.println();
     }
 
     public static class Pair {
